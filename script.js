@@ -132,3 +132,12 @@ const keyboardLayout = {
     controlRight: ['Ctrl'],
   },
 };
+
+/* creating textarea */
+const textarea = document.createElement('TEXTAREA');
+const t = document.createTextNode('');
+textarea.appendChild(t);
+textarea.style = 'resize: none; margin: 4% 21rem;';
+textarea.setAttribute('cols', 80);
+textarea.setAttribute('rows', 10);
+document.body.appendChild(textarea);
