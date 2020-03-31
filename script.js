@@ -133,11 +133,30 @@ const keyboardLayout = {
   },
 };
 
-/* creating textarea */
-const textarea = document.createElement('TEXTAREA');
-const t = document.createTextNode('');
-textarea.appendChild(t);
-textarea.style = 'resize: none; margin: 4% 21rem;';
-textarea.setAttribute('cols', 80);
-textarea.setAttribute('rows', 10);
-document.body.appendChild(textarea);
+const css = {
+  wrapper: 'wrapper',
+  textarea: 'textarea',
+};
+
+function createElements() {
+  const wrapper = document.createElement('div');
+  wrapper.classList.add(css.wrapper);
+
+  const textarea = document.createElement('textarea');
+  const t = document.createTextNode('');
+  textarea.appendChild(t);
+  textarea.style = 'resize: none;';
+  textarea.setAttribute('cols', 80);
+  textarea.setAttribute('rows', 10);
+  document.body.appendChild(textarea);
+  textarea.classList.add(css.textarea);
+
+  wrapper.append(textarea);
+
+  return wrapper;
+}
+
+window.addEventListener('load', () => {
+  const pageElements = createElements();
+  document.querySelector('body').appendChild(pageElements);
+});
