@@ -136,6 +136,7 @@ const keyboardLayout = {
 const css = {
   wrapper: 'wrapper',
   textarea: 'textarea',
+  kbContainer: 'kbContainer',
 };
 
 function createElements() {
@@ -151,7 +152,10 @@ function createElements() {
   document.body.appendChild(textarea);
   textarea.classList.add(css.textarea);
 
-  wrapper.append(textarea);
+  const kbContainer = document.createElement('div');
+  kbContainer.classList.add(css.kbContainer);
+
+  wrapper.append(textarea, kbContainer);
 
   return wrapper;
 }

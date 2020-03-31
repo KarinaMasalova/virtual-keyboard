@@ -1,8 +1,15 @@
 .wrapper {
   margin: 0 auto;
-  max-width: 1000px;
 }
 
 .textarea {
-  margin: 0 calc((100% - 67%) / 2);
+  display: block;
+  width: 800px;
+  height: 300px;
+  margin: 0  auto 10px;
+}
+
+.kbContainer {
+  width: 704px;
+  margin: 0 auto;
 }
