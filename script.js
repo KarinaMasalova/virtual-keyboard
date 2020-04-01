@@ -119,16 +119,16 @@ const keyboardLayout = {
     comma: ['б', 'Б'],
     dot: ['ю', 'Ю'],
     slash: ['.', ','],
-    arrowUp: ['▲'],
+    arrowUp: ['↑'],
     shiftRight: ['Shift'],
     controlLeft: ['Ctrl'],
     windows: ['Win'],
     altLeft: ['Alt'],
     space: [' ', ' '],
     altRight: ['Alt'],
-    arrowLeft: ['◄'],
-    arrowDown: ['▼'],
-    arrowRight: ['►'],
+    arrowLeft: ['←'],
+    arrowDown: ['↓'],
+    arrowRight: ['→'],
     controlRight: ['Ctrl'],
   },
 };
@@ -136,7 +136,8 @@ const keyboardLayout = {
 const css = {
   wrapper: 'wrapper',
   textarea: 'textarea',
-  kbContainer: 'kbContainer',
+  keyboard: 'keyboard',
+  row: 'row',
 };
 
 function createElements() {
@@ -152,10 +153,15 @@ function createElements() {
   document.body.appendChild(textarea);
   textarea.classList.add(css.textarea);
 
-  const kbContainer = document.createElement('div');
-  kbContainer.classList.add(css.kbContainer);
+  const keyboard = document.createElement('div');
+  keyboard.classList.add(css.keyboard);
+  wrapper.append(textarea, keyboard);
 
-  wrapper.append(textarea, kbContainer);
+  for (let i = 0; i < 5; i += 1) {
+    const row = document.createElement('div');
+    row.classList.add(css.row);
+    keyboard.append(row);
+  }
 
   return wrapper;
 }
