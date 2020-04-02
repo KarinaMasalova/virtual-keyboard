@@ -4,7 +4,7 @@ const keyboardLayout = {
     digit1: ['1', '!'],
     digit2: ['2', '@'],
     digit3: ['3', '#'],
-    digit4: ['4', '%'],
+    digit4: ['4', '$'],
     digit5: ['5', '%'],
     digit6: ['6', '^'],
     digit7: ['7', '&'],
@@ -28,7 +28,7 @@ const keyboardLayout = {
     leftBracket: ['[', '{'],
     rightBracket: [']', '}'],
     backslash: ['\\', '|'],
-    delete: ['DEL'],
+    del: ['DEL'],
     capslock: ['CapsLock'],
     keyA: ['a', 'A'],
     keyS: ['s', 'S'],
@@ -53,16 +53,16 @@ const keyboardLayout = {
     comma: [',', '<'],
     dot: ['.', '>'],
     slash: ['/', '?'],
-    arrowUp: ['▲'],
+    arrowUp: ['↑'],
     shiftRight: ['Shift'],
     controlLeft: ['Ctrl'],
     windows: ['Win'],
     altLeft: ['Alt'],
     space: [' ', ' '],
     altRight: ['Alt'],
-    arrowLeft: ['◄'],
-    arrowDown: ['▼'],
-    arrowRight: ['►'],
+    arrowLeft: ['←'],
+    arrowDown: ['↓'],
+    arrowRight: ['→'],
     controlRight: ['Ctrl'],
   },
   ru: {
@@ -143,12 +143,28 @@ const css = {
   row4: 'row4',
   row5: 'row5',
   key: 'key',
+  val: 'val',
 };
 
 function createKey() {
   const key = document.createElement('div');
   key.classList.add(css.key);
   return key;
+}
+
+function getValue() {
+  const engArr = Object.entries(keyboardLayout.en);
+  const value = engArr.map((arr) => {
+    const [keys, values] = arr;
+    const [val1, val2] = values;
+    const val = document.createElement('span');
+    val.classList.add(css.val);
+    val.textContent = val1;
+    const key = createKey();
+    key.append(val);
+    return key;
+  });
+  return value;
 }
 
 function createElements() {
@@ -168,34 +184,37 @@ function createElements() {
   keyboard.classList.add(css.keyboard);
   wrapper.append(textarea, keyboard);
 
+  const allKeys = getValue();
+  let indexAllKeys = 0;
+
   const row1 = document.createElement('div');
   row1.classList.add(css.row1);
-  for (let i = 0; i < 14; i += 1) {
-    row1.append(createKey());
+  for (let i = 0; i < 14; i += 1, indexAllKeys += 1) {
+    row1.append(allKeys[indexAllKeys]);
   }
 
   const row2 = document.createElement('div');
   row2.classList.add(css.row2);
-  for (let i = 0; i < 15; i += 1) {
-    row2.append(createKey());
+  for (let i = 0; i < 15; i += 1, indexAllKeys += 1) {
+    row2.append(allKeys[indexAllKeys]);
   }
 
   const row3 = document.createElement('div');
   row3.classList.add(css.row3);
-  for (let i = 0; i < 13; i += 1) {
-    row3.append(createKey());
+  for (let i = 0; i < 13; i += 1, indexAllKeys += 1) {
+    row3.append(allKeys[indexAllKeys]);
   }
 
   const row4 = document.createElement('div');
   row4.classList.add(css.row4);
-  for (let i = 0; i < 13; i += 1) {
-    row4.append(createKey());
+  for (let i = 0; i < 13; i += 1, indexAllKeys += 1) {
+    row4.append(allKeys[indexAllKeys]);
   }
 
   const row5 = document.createElement('div');
   row5.classList.add(css.row5);
-  for (let i = 0; i < 9; i += 1) {
-    row5.append(createKey());
+  for (let i = 0; i < 9; i += 1, indexAllKeys += 1) {
+    row5.append(allKeys[indexAllKeys]);
   }
 
   keyboard.append(row1, row2, row3, row4, row5);
