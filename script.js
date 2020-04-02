@@ -137,8 +137,19 @@ const css = {
   wrapper: 'wrapper',
   textarea: 'textarea',
   keyboard: 'keyboard',
-  row: 'row',
+  row1: 'row1',
+  row2: 'row2',
+  row3: 'row3',
+  row4: 'row4',
+  row5: 'row5',
+  key: 'key',
 };
+
+function createKey() {
+  const key = document.createElement('div');
+  key.classList.add(css.key);
+  return key;
+}
 
 function createElements() {
   const wrapper = document.createElement('div');
@@ -157,11 +168,37 @@ function createElements() {
   keyboard.classList.add(css.keyboard);
   wrapper.append(textarea, keyboard);
 
-  for (let i = 0; i < 5; i += 1) {
-    const row = document.createElement('div');
-    row.classList.add(css.row);
-    keyboard.append(row);
+  const row1 = document.createElement('div');
+  row1.classList.add(css.row1);
+  for (let i = 0; i < 14; i += 1) {
+    row1.append(createKey());
   }
+
+  const row2 = document.createElement('div');
+  row2.classList.add(css.row2);
+  for (let i = 0; i < 15; i += 1) {
+    row2.append(createKey());
+  }
+
+  const row3 = document.createElement('div');
+  row3.classList.add(css.row3);
+  for (let i = 0; i < 13; i += 1) {
+    row3.append(createKey());
+  }
+
+  const row4 = document.createElement('div');
+  row4.classList.add(css.row4);
+  for (let i = 0; i < 13; i += 1) {
+    row4.append(createKey());
+  }
+
+  const row5 = document.createElement('div');
+  row5.classList.add(css.row5);
+  for (let i = 0; i < 9; i += 1) {
+    row5.append(createKey());
+  }
+
+  keyboard.append(row1, row2, row3, row4, row5);
 
   return wrapper;
 }
