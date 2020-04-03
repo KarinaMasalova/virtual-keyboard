@@ -46,23 +46,25 @@
   line-height: 40px;
 }
 
-.backspace,
-.capslock,
-.enter,
-.shift {
+.key:hover {
+  background-color:mediumorchid;
+  transition: linear 0.5s;
+  color: #fff;
+}
+
+.backspace, .capslock,
+.enter, .shift {
   width: 100px;
 }
 
-.tab,
-.del {
+.tab, .del {
   width: 47px;
 }
 
-.ctrl,
-.alt {
+.ctrl, .alt {
   width: 50px;
 }
 
 .space {
-  width: 336px;
+  width: 335px;
 }
