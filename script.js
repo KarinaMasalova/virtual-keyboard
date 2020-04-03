@@ -135,11 +135,7 @@ const css = {
   wrapper: 'wrapper',
   textarea: 'textarea',
   keyboard: 'keyboard',
-  row1: 'row1',
-  row2: 'row2',
-  row3: 'row3',
-  row4: 'row4',
-  row5: 'row5',
+  row: 'row',
   key: 'key',
   backspace: 'backspace',
   tab: 'tab',
@@ -235,37 +231,26 @@ function createElements() {
   const allKeys = getValue();
   let indexAllKeys = 0;
 
+  function createRowsWithKeys(row, keysAmount) {
+    row.classList.add(css.row);
+    for (let i = 0; i < keysAmount; i += 1, indexAllKeys += 1) {
+      row.append(allKeys[indexAllKeys]);
+      keyboard.append(row);
+    }
+    return keyboard;
+  }
+
   const row1 = document.createElement('div');
-  row1.classList.add(css.row1);
-  for (let i = 0; i < 14; i += 1, indexAllKeys += 1) {
-    row1.append(allKeys[indexAllKeys]);
-  }
-
   const row2 = document.createElement('div');
-  row2.classList.add(css.row2);
-  for (let i = 0; i < 15; i += 1, indexAllKeys += 1) {
-    row2.append(allKeys[indexAllKeys]);
-  }
-
   const row3 = document.createElement('div');
-  row3.classList.add(css.row3);
-  for (let i = 0; i < 13; i += 1, indexAllKeys += 1) {
-    row3.append(allKeys[indexAllKeys]);
-  }
-
   const row4 = document.createElement('div');
-  row4.classList.add(css.row4);
-  for (let i = 0; i < 13; i += 1, indexAllKeys += 1) {
-    row4.append(allKeys[indexAllKeys]);
-  }
-
   const row5 = document.createElement('div');
-  row5.classList.add(css.row5);
-  for (let i = 0; i < 8; i += 1, indexAllKeys += 1) {
-    row5.append(allKeys[indexAllKeys]);
-  }
 
-  keyboard.append(row1, row2, row3, row4, row5);
+  createRowsWithKeys(row1, 14);
+  createRowsWithKeys(row2, 15);
+  createRowsWithKeys(row3, 13);
+  createRowsWithKeys(row4, 13);
+  createRowsWithKeys(row5, 8);
 
   return wrapper;
 }
