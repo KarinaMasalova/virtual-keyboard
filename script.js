@@ -56,7 +56,6 @@ const keyboardLayout = {
     arrowUp: ['↑'],
     shiftRight: ['Shift'],
     controlLeft: ['Ctrl'],
-    windows: ['Win'],
     altLeft: ['Alt'],
     space: [' ', ' '],
     altRight: ['Alt'],
@@ -94,7 +93,7 @@ const keyboardLayout = {
     leftBracket: ['х', 'Х'],
     rightBracket: ['ъ', 'Ъ'],
     backslash: ['\\', '/'],
-    delete: ['DEL'],
+    del: ['DEL'],
     capslock: ['CapsLock'],
     keyA: ['ф', 'Ф'],
     keyS: ['ы', 'Ы'],
@@ -122,7 +121,6 @@ const keyboardLayout = {
     arrowUp: ['↑'],
     shiftRight: ['Shift'],
     controlLeft: ['Ctrl'],
-    windows: ['Win'],
     altLeft: ['Alt'],
     space: [' ', ' '],
     altRight: ['Alt'],
@@ -143,8 +141,15 @@ const css = {
   row4: 'row4',
   row5: 'row5',
   key: 'key',
-  //val: 'val',
   backspace: 'backspace',
+  tab: 'tab',
+  del: 'del',
+  capslock: 'capslock',
+  enter: 'enter',
+  shift: 'shift',
+  ctrl: 'ctrl',
+  alt: 'alt',
+  space: 'space',
 };
 
 function createKey() {
@@ -167,10 +172,43 @@ function getValue() {
     key.append(val);
 
     key.classList.add(css.backspace);
+    key.classList.add(css.tab);
+    key.classList.add(css.del);
+    key.classList.add(css.capslock);
+    key.classList.add(css.enter);
+    key.classList.add(css.shift);
+    key.classList.add(css.ctrl);
+    key.classList.add(css.alt);
+    key.classList.add(css.space);
 
     if (val1 !== 'Backspace') {
       key.classList.remove('backspace');
     }
+    if (val1 !== 'Tab') {
+      key.classList.remove('tab');
+    }
+    if (val1 !== 'DEL') {
+      key.classList.remove('del');
+    }
+    if (val1 !== 'CapsLock') {
+      key.classList.remove('capslock');
+    }
+    if (val1 !== 'ENTER') {
+      key.classList.remove('enter');
+    }
+    if (val1 !== 'Shift') {
+      key.classList.remove('shift');
+    }
+    if (val1 !== 'Ctrl') {
+      key.classList.remove('ctrl');
+    }
+    if (val1 !== 'Alt') {
+      key.classList.remove('alt');
+    }
+    if (val1 !== ' ') {
+      key.classList.remove('space');
+    }
+
     return key;
   });
 
@@ -223,7 +261,7 @@ function createElements() {
 
   const row5 = document.createElement('div');
   row5.classList.add(css.row5);
-  for (let i = 0; i < 9; i += 1, indexAllKeys += 1) {
+  for (let i = 0; i < 8; i += 1, indexAllKeys += 1) {
     row5.append(allKeys[indexAllKeys]);
   }
 

@@ -6,7 +6,7 @@
   display: block;
   width: 800px;
   height: 300px;
-  margin: 0  auto 10px;
+  margin: 14px auto 10px;
 }
 
 .keyboard {
@@ -39,6 +39,30 @@
   cursor: pointer;
 }
 
-.backspace {
+.key .val {
+  font-size: 19px;
+  font-weight: 400;
+  font-family: 'Roboto';
+  line-height: 40px;
+}
+
+.backspace,
+.capslock,
+.enter,
+.shift {
   width: 100px;
+}
+
+.tab,
+.del {
+  width: 47px;
+}
+
+.ctrl,
+.alt {
+  width: 50px;
+}
+
+.space {
+  width: 336px;
 }
