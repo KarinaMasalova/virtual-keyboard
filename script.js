@@ -143,7 +143,8 @@ const css = {
   row4: 'row4',
   row5: 'row5',
   key: 'key',
-  val: 'val',
+  //val: 'val',
+  backspace: 'backspace',
 };
 
 function createKey() {
@@ -158,12 +159,21 @@ function getValue() {
     const [keys, values] = arr;
     const [val1, val2] = values;
     const val = document.createElement('span');
-    val.classList.add(css.val);
+
+    val.setAttribute('class', 'val');
     val.textContent = val1;
+
     const key = createKey();
     key.append(val);
+
+    key.classList.add(css.backspace);
+
+    if (val1 !== 'Backspace') {
+      key.classList.remove('backspace');
+    }
     return key;
   });
+
   return value;
 }
 

@@ -38,3 +38,7 @@
   border-radius: 3px;
   cursor: pointer;
 }
+
+.backspace {
+  width: 100px;
+}
