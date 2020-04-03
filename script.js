@@ -177,33 +177,22 @@ function getValue() {
     key.classList.add(css.alt);
     key.classList.add(css.space);
 
-    if (val1 !== 'Backspace') {
-      key.classList.remove('backspace');
+    function specialKeys(keyWord, cssClass) {
+      if (val1 !== keyWord) {
+        key.classList.remove(cssClass);
+      }
+      return key;
     }
-    if (val1 !== 'Tab') {
-      key.classList.remove('tab');
-    }
-    if (val1 !== 'DEL') {
-      key.classList.remove('del');
-    }
-    if (val1 !== 'CapsLock') {
-      key.classList.remove('capslock');
-    }
-    if (val1 !== 'ENTER') {
-      key.classList.remove('enter');
-    }
-    if (val1 !== 'Shift') {
-      key.classList.remove('shift');
-    }
-    if (val1 !== 'Ctrl') {
-      key.classList.remove('ctrl');
-    }
-    if (val1 !== 'Alt') {
-      key.classList.remove('alt');
-    }
-    if (val1 !== ' ') {
-      key.classList.remove('space');
-    }
+
+    specialKeys('Backspace', 'backspace');
+    specialKeys('Tab', 'tab');
+    specialKeys('DEL', 'del');
+    specialKeys('CapsLock', 'capslock');
+    specialKeys('ENTER', 'enter');
+    specialKeys('Shift', 'shift');
+    specialKeys('Ctrl', 'ctrl');
+    specialKeys('Alt', 'alt');
+    specialKeys(' ', 'space');
 
     return key;
   });
