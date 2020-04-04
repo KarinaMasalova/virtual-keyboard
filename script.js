@@ -11,7 +11,7 @@ const keyboardLayout = {
     digit8: ['8', '*'],
     digit9: ['9', '('],
     digit0: ['0', ')'],
-    dash: ['-', '_'],
+    minus: ['-', '_'],
     equal: ['=', '+'],
     backspace: ['Backspace'],
     tab: ['Tab'],
@@ -25,11 +25,11 @@ const keyboardLayout = {
     keyI: ['i', 'I'],
     keyO: ['o', 'O'],
     keyP: ['p', 'P'],
-    leftBracket: ['[', '{'],
-    rightBracket: [']', '}'],
+    bracketLeft: ['[', '{'],
+    bracketRight: [']', '}'],
     backslash: ['\\', '|'],
     del: ['DEL'],
-    capslock: ['CapsLock'],
+    capsLock: ['CapsLock'],
     keyA: ['a', 'A'],
     keyS: ['s', 'S'],
     keyD: ['d', 'D'],
@@ -146,7 +146,24 @@ const css = {
   ctrl: 'ctrl',
   alt: 'alt',
   space: 'space',
+  keydown: 'keydown',
 };
+
+
+function handleKeydown(event) {
+  event.preventDefault();
+  const keyID = `#${event.code[0].toLowerCase()}${event.code.substring(1)}`;
+  const keyElem = document.querySelector(keyID);
+  keyElem.classList.add(css.keydown);
+  return true;
+}
+
+function handleKeyup(event) {
+  const keyID = `#${event.code[0].toLowerCase()}${event.code.substring(1)}`;
+  const keyElem = document.querySelector(keyID);
+  keyElem.classList.remove(css.keydown);
+  return true;
+}
 
 function createKey() {
   const key = document.createElement('div');
@@ -154,10 +171,15 @@ function createKey() {
   return key;
 }
 
-function getValue() {
-  const engArr = Object.entries(keyboardLayout.en);
-  const value = engArr.map((arr) => {
-    const [keys, values] = arr;
+/*
+const languages = ['en', 'ru'];
+const curLangIndex = 0; */
+
+function getKeysByLang(/* lang */) {
+  /* lang = languages[curLangIndex];  */
+  const langArr = Object.entries(keyboardLayout.en /* [lang] */);
+  const value = langArr.map((arr) => {
+    const [keyID, values] = arr;
     const [val1, val2] = values;
     const val = document.createElement('span');
 
@@ -166,6 +188,7 @@ function getValue() {
 
     const key = createKey();
     key.append(val);
+    key.id = keyID;
 
     key.classList.add(css.backspace);
     key.classList.add(css.tab);
@@ -199,6 +222,15 @@ function getValue() {
 
   return value;
 }
+/*
+function saveLang() {
+  window.localStorage.setItem('language', curLangIndex);
+}
+
+function getLang() {
+  const langIndex = window.localStorage.getItem('language');
+  return (langIndex || 0);
+} */
 
 function createElements() {
   const wrapper = document.createElement('div');
@@ -217,7 +249,8 @@ function createElements() {
   keyboard.classList.add(css.keyboard);
   wrapper.append(textarea, keyboard);
 
-  const allKeys = getValue();
+  const allKeys = getKeysByLang();
+  /* saveLang(); */
   let indexAllKeys = 0;
 
   function createRowsWithKeys(row, keysAmount) {
@@ -247,4 +280,6 @@ function createElements() {
 window.addEventListener('load', () => {
   const pageElements = createElements();
   document.querySelector('body').appendChild(pageElements);
+  window.addEventListener('keydown', handleKeydown);
+  window.addEventListener('keyup', handleKeyup);
 });

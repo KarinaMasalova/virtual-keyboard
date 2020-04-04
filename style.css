@@ -41,10 +41,14 @@
   line-height: 40px;
 }
 
-.key:hover {
+.key:hover,
+.keydown {
   background-color:mediumorchid;
-  transition: linear 0.5s;
   color: #fff;
+}
+
+.key:hover {
+  transition: linear 0.5s;
 }
 
 .backspace, .capslock,
