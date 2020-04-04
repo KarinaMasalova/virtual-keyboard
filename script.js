@@ -28,7 +28,7 @@ const keyboardLayout = {
     bracketLeft: ['[', '{'],
     bracketRight: [']', '}'],
     backslash: ['\\', '|'],
-    del: ['DEL'],
+    delete: ['DEL'],
     capsLock: ['CapsLock'],
     keyA: ['a', 'A'],
     keyS: ['s', 'S'],
@@ -139,7 +139,7 @@ const css = {
   key: 'key',
   backspace: 'backspace',
   tab: 'tab',
-  del: 'del',
+  delete: 'delete',
   capsLock: 'capsLock',
   enter: 'enter',
   shift: 'shift',
@@ -155,10 +155,12 @@ function handleKeydown(event) {
   const keyID = `#${event.code[0].toLowerCase()}${event.code.substring(1)}`;
   const keyElem = document.querySelector(keyID);
   keyElem.classList.add(css.keydown);
+  console.log(event);
   return true;
 }
 
 function handleKeyup(event) {
+  event.preventDefault();
   const keyID = `#${event.code[0].toLowerCase()}${event.code.substring(1)}`;
   const keyElem = document.querySelector(keyID);
   keyElem.classList.remove(css.keydown);
@@ -171,13 +173,23 @@ function createKey() {
   return key;
 }
 
-/*
 const languages = ['en', 'ru'];
-const curLangIndex = 0; */
+const defaultLanguage = languages[0];
+let curLangIndex = 0;
 
-function getKeysByLang(/* lang */) {
-  /* lang = languages[curLangIndex];  */
-  const langArr = Object.entries(keyboardLayout.en /* [lang] */);
+
+function saveLanguage() {
+  window.localStorage.setItem('language', curLangIndex);
+}
+
+function getLanguage() {
+  const langIndex = window.localStorage.getItem('language');
+  return (langIndex || 0);
+}
+
+function getKeysByLang() {
+  const lang = languages[curLangIndex];
+  const langArr = Object.entries(keyboardLayout[lang]);
   const value = langArr.map((arr) => {
     const [keyID, values] = arr;
     const [val1, val2] = values;
@@ -192,7 +204,7 @@ function getKeysByLang(/* lang */) {
 
     key.classList.add(css.backspace);
     key.classList.add(css.tab);
-    key.classList.add(css.del);
+    key.classList.add(css.delete);
     key.classList.add(css.capsLock);
     key.classList.add(css.enter);
     key.classList.add(css.shift);
@@ -209,7 +221,7 @@ function getKeysByLang(/* lang */) {
 
     specialKeys('Backspace', 'backspace');
     specialKeys('Tab', 'tab');
-    specialKeys('DEL', 'del');
+    specialKeys('DEL', 'delete');
     specialKeys('CapsLock', 'capsLock');
     specialKeys('ENTER', 'enter');
     specialKeys('Shift', 'shift');
@@ -222,15 +234,13 @@ function getKeysByLang(/* lang */) {
 
   return value;
 }
-/*
-function saveLang() {
-  window.localStorage.setItem('language', curLangIndex);
-}
 
-function getLang() {
-  const langIndex = window.localStorage.getItem('language');
-  return (langIndex || 0);
-} */
+function changeLayout() {
+  curLangIndex = (curLangIndex + 1) % languages.length;
+  saveLanguage();
+  const lang = languages[curLangIndex];
+  const keys = getKeysByLang(lang);
+}
 
 function createElements() {
   const wrapper = document.createElement('div');
@@ -250,7 +260,8 @@ function createElements() {
   wrapper.append(textarea, keyboard);
 
   const allKeys = getKeysByLang();
-  /* saveLang(); */
+  curLangIndex = getLanguage();
+  saveLanguage();
   let indexAllKeys = 0;
 
   function createRowsWithKeys(row, keysAmount) {
