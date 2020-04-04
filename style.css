@@ -51,7 +51,7 @@
   transition: linear 0.5s;
 }
 
-.backspace, .capslock,
+.backspace, .capsLock,
 .enter, .shift {
   width: 100px;
 }

@@ -140,7 +140,7 @@ const css = {
   backspace: 'backspace',
   tab: 'tab',
   del: 'del',
-  capslock: 'capslock',
+  capsLock: 'capsLock',
   enter: 'enter',
   shift: 'shift',
   ctrl: 'ctrl',
@@ -193,7 +193,7 @@ function getKeysByLang(/* lang */) {
     key.classList.add(css.backspace);
     key.classList.add(css.tab);
     key.classList.add(css.del);
-    key.classList.add(css.capslock);
+    key.classList.add(css.capsLock);
     key.classList.add(css.enter);
     key.classList.add(css.shift);
     key.classList.add(css.ctrl);
