@@ -149,24 +149,6 @@ const css = {
   keydown: 'keydown',
 };
 
-
-function handleKeydown(event) {
-  event.preventDefault();
-  const keyID = `#${event.code[0].toLowerCase()}${event.code.substring(1)}`;
-  const keyElem = document.querySelector(keyID);
-  keyElem.classList.add(css.keydown);
-  console.log(event);
-  return true;
-}
-
-function handleKeyup(event) {
-  event.preventDefault();
-  const keyID = `#${event.code[0].toLowerCase()}${event.code.substring(1)}`;
-  const keyElem = document.querySelector(keyID);
-  keyElem.classList.remove(css.keydown);
-  return true;
-}
-
 function createKey() {
   const key = document.createElement('div');
   key.classList.add(css.key);
@@ -174,7 +156,6 @@ function createKey() {
 }
 
 const languages = ['en', 'ru'];
-const defaultLanguage = languages[0];
 let curLangIndex = 0;
 
 
@@ -240,6 +221,39 @@ function changeLayout() {
   saveLanguage();
   const lang = languages[curLangIndex];
   const keys = getKeysByLang(lang);
+  const keyboard = document.querySelector('.keyboard');
+  keyboard.innerHTML = '';
+  keyboard.append(...keys);
+}
+
+let isShiftDown = false;
+let isCtrlDown = false;
+//let isCapsDown = false;
+
+function handleKeydown(event) {
+  event.preventDefault();
+  const keyID = `#${event.code[0].toLowerCase()}${event.code.substring(1)}`;
+  const keyElem = document.querySelector(keyID);
+  keyElem.classList.add(css.keydown);
+
+  if (event.shiftKey === true) isShiftDown = true;
+  else isShiftDown = false;
+
+  if (event.ctrlKey === true) isCtrlDown = true;
+  else isCtrlDown = false;
+
+  if (isShiftDown && isCtrlDown) changeLayout();
+
+  console.log(event);
+  return true;
+}
+
+function handleKeyup(event) {
+  event.preventDefault();
+  const keyID = `#${event.code[0].toLowerCase()}${event.code.substring(1)}`;
+  const keyElem = document.querySelector(keyID);
+  keyElem.classList.remove(css.keydown);
+  return true;
 }
 
 function createElements() {
