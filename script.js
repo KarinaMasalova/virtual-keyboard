@@ -210,7 +210,7 @@ function getKeysByLang(/* lang */) {
     specialKeys('Backspace', 'backspace');
     specialKeys('Tab', 'tab');
     specialKeys('DEL', 'del');
-    specialKeys('CapsLock', 'capslock');
+    specialKeys('CapsLock', 'capsLock');
     specialKeys('ENTER', 'enter');
     specialKeys('Shift', 'shift');
     specialKeys('Ctrl', 'ctrl');
