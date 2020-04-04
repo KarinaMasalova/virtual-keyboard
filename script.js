@@ -51,7 +51,7 @@ const keyboardLayout = {
     keyN: ['n', 'N'],
     keyM: ['m', 'M'],
     comma: [',', '<'],
-    dot: ['.', '>'],
+    period: ['.', '>'],
     slash: ['/', '?'],
     arrowUp: ['↑'],
     shiftRight: ['Shift'],
