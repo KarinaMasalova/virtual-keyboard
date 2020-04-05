@@ -32,6 +32,8 @@
   background: plum;
   border-radius: 3px;
   cursor: pointer;
+  box-shadow: 0 0 7px indigo;
+  transition: 0.3s;
 }
 
 .key .val {
@@ -49,6 +51,10 @@
 
 .key:hover {
   transition: linear 0.5s;
+}
+
+.keydown {
+  border-radius: 30px;
 }
 
 .backspace, .capsLock,
