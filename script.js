@@ -216,6 +216,27 @@ function getKeysByLang() {
   return value;
 }
 
+function createRowsWithKeys(keysAmount, allKeys, startIndex) {
+  const row = document.createElement('div');
+  row.classList.add(css.row);
+
+  for (let i = startIndex; i < startIndex + keysAmount; i += 1) {
+    row.append(allKeys[i]);
+  }
+  return row;
+}
+
+
+function createRows(allKeys) {
+  const row1 = createRowsWithKeys(14, allKeys, 0);
+  const row2 = createRowsWithKeys(15, allKeys, 14);
+  const row3 = createRowsWithKeys(13, allKeys, 29);
+  const row4 = createRowsWithKeys(13, allKeys, 42);
+  const row5 = createRowsWithKeys(8, allKeys, 55);
+  return [row1, row2, row3, row4, row5];
+}
+
+
 function changeLayout() {
   curLangIndex = (curLangIndex + 1) % languages.length;
   saveLanguage();
@@ -223,12 +244,12 @@ function changeLayout() {
   const keys = getKeysByLang(lang);
   const keyboard = document.querySelector('.keyboard');
   keyboard.innerHTML = '';
-  keyboard.append(...keys);
+  keyboard.append(...createRows(keys));
 }
 
 let isShiftDown = false;
 let isCtrlDown = false;
-//let isCapsDown = false;
+// let isCapsDown = false;
 
 function handleKeydown(event) {
   event.preventDefault();
@@ -243,8 +264,6 @@ function handleKeydown(event) {
   else isCtrlDown = false;
 
   if (isShiftDown && isCtrlDown) changeLayout();
-
-  console.log(event);
   return true;
 }
 
@@ -276,28 +295,9 @@ function createElements() {
   const allKeys = getKeysByLang();
   curLangIndex = getLanguage();
   saveLanguage();
-  let indexAllKeys = 0;
 
-  function createRowsWithKeys(row, keysAmount) {
-    row.classList.add(css.row);
-    for (let i = 0; i < keysAmount; i += 1, indexAllKeys += 1) {
-      row.append(allKeys[indexAllKeys]);
-      keyboard.append(row);
-    }
-    return keyboard;
-  }
-
-  const row1 = document.createElement('div');
-  const row2 = document.createElement('div');
-  const row3 = document.createElement('div');
-  const row4 = document.createElement('div');
-  const row5 = document.createElement('div');
-
-  createRowsWithKeys(row1, 14);
-  createRowsWithKeys(row2, 15);
-  createRowsWithKeys(row3, 13);
-  createRowsWithKeys(row4, 13);
-  createRowsWithKeys(row5, 8);
+  const rows = createRows(allKeys);
+  keyboard.append(...rows);
 
   return wrapper;
 }
