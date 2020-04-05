@@ -247,6 +247,7 @@ function changeLayout() {
   keyboard.append(...createRows(keys));
 }
 
+const textarea = document.createElement('textarea');
 let isShiftDown = false;
 let isCtrlDown = false;
 // let isCapsDown = false;
@@ -256,6 +257,8 @@ function handleKeydown(event) {
   const keyID = `#${event.code[0].toLowerCase()}${event.code.substring(1)}`;
   const keyElem = document.querySelector(keyID);
   keyElem.classList.add(css.keydown);
+
+  textarea.innerHTML += event.key;
 
   if (event.shiftKey === true) isShiftDown = true;
   else isShiftDown = false;
@@ -279,9 +282,6 @@ function createElements() {
   const wrapper = document.createElement('div');
   wrapper.classList.add(css.wrapper);
 
-  const textarea = document.createElement('textarea');
-  const t = document.createTextNode('');
-  textarea.appendChild(t);
   textarea.style = 'resize: none;';
   textarea.setAttribute('cols', 80);
   textarea.setAttribute('rows', 10);
