@@ -149,6 +149,8 @@ const css = {
   keydown: 'keydown',
 };
 
+const textarea = document.createElement('textarea');
+
 function createKey() {
   const key = document.createElement('div');
   key.classList.add(css.key);
@@ -226,7 +228,6 @@ function createRowsWithKeys(keysAmount, allKeys, startIndex) {
   return row;
 }
 
-
 function createRows(allKeys) {
   const row1 = createRowsWithKeys(14, allKeys, 0);
   const row2 = createRowsWithKeys(15, allKeys, 14);
@@ -235,7 +236,6 @@ function createRows(allKeys) {
   const row5 = createRowsWithKeys(8, allKeys, 55);
   return [row1, row2, row3, row4, row5];
 }
-
 
 function changeLayout() {
   curLangIndex = (curLangIndex + 1) % languages.length;
@@ -247,10 +247,16 @@ function changeLayout() {
   keyboard.append(...createRows(keys));
 }
 
-const textarea = document.createElement('textarea');
 let isShiftDown = false;
 let isCtrlDown = false;
-// let isCapsDown = false;
+let isCapsDown = false;
+/*
+function printChar(char) {
+  if (!isCapsDown || !isShiftDown) {
+
+  }
+  return char;
+} */
 
 function handleKeydown(event) {
   event.preventDefault();
@@ -267,6 +273,16 @@ function handleKeydown(event) {
   else isCtrlDown = false;
 
   if (isShiftDown && isCtrlDown) changeLayout();
+  /*
+  switch (event.key) {
+    case 'Delete':
+      delChar();
+      break;
+
+
+    default: break;
+  } */
+
   return true;
 }
 
@@ -302,9 +318,23 @@ function createElements() {
   return wrapper;
 }
 
+function mouseDownHandler(elem) {
+  elem.classList.add(css.keydown);
+  textarea.textContent += elem.querySelector('.val').textContent;
+}
+
+function mouseUpHandler(elem) {
+  elem.classList.remove(css.keydown);
+}
+
 window.addEventListener('load', () => {
   const pageElements = createElements();
   document.querySelector('body').appendChild(pageElements);
   window.addEventListener('keydown', handleKeydown);
   window.addEventListener('keyup', handleKeyup);
+
+  document.querySelectorAll('.key').forEach((element) => {
+    element.addEventListener('mousedown', () => mouseDownHandler(element));
+    element.addEventListener('mouseup', () => mouseUpHandler(element));
+  });
 });
