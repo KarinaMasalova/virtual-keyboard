@@ -249,22 +249,34 @@ function changeLayout() {
 
 let isShiftDown = false;
 let isCtrlDown = false;
-let isCapsDown = false;
-/*
-function printChar(char) {
-  if (!isCapsDown || !isShiftDown) {
+// let isCapsDown = false;
 
+const printSpecialKey = (key) => {
+  switch (key) {
+    case 'Tab':
+      textarea.value += '  ';
+      break;
+    case 'ENTER':
+      textarea.value += '\n';
+      break;
+    case 'Alt':
+    case 'Ctrl':
+      textarea.value += '';
+      break;
+    default:
+      textarea.value += key;
+      break;
   }
-  return char;
-} */
+  textarea.innerHTML += key;
+};
 
 function handleKeydown(event) {
   event.preventDefault();
-  const keyID = `#${event.code[0].toLowerCase()}${event.code.substring(1)}`;
+  const keyID = `#${event.code[0].toLowerCase()}${event.code.substring(1)}`; /* make 1st letter in event.code capitalized */
   const keyElem = document.querySelector(keyID);
   keyElem.classList.add(css.keydown);
 
-  textarea.innerHTML += event.key;
+  printSpecialKey(keyElem.textContent);
 
   if (event.shiftKey === true) isShiftDown = true;
   else isShiftDown = false;
@@ -273,15 +285,6 @@ function handleKeydown(event) {
   else isCtrlDown = false;
 
   if (isShiftDown && isCtrlDown) changeLayout();
-  /*
-  switch (event.key) {
-    case 'Delete':
-      delChar();
-      break;
-
-
-    default: break;
-  } */
 
   return true;
 }
@@ -320,7 +323,7 @@ function createElements() {
 
 function mouseDownHandler(elem) {
   elem.classList.add(css.keydown);
-  textarea.textContent += elem.querySelector('.val').textContent;
+  printSpecialKey(elem.textContent);
 }
 
 function mouseUpHandler(elem) {
