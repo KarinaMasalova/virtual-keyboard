@@ -243,19 +243,6 @@ function createRows(allKeys) {
   return [row1, row2, row3, row4, row5];
 }
 
-function changeLayout() {
-  curLangIndex = (curLangIndex + 1) % languages.length;
-  saveLanguage();
-  const lang = languages[curLangIndex];
-  const keys = getKeysByLang(lang);
-  const keyboard = document.querySelector('.keyboard');
-  keyboard.innerHTML = '';
-  keyboard.append(...createRows(keys));
-}
-
-let isShiftDown = false;
-let isCtrlDown = false;
-
 const shift = () => {
   const visible = document.querySelectorAll('.val');
   const hidden = document.querySelectorAll('.hidden');
@@ -267,6 +254,20 @@ const shift = () => {
     h.classList.add('val');
   });
 };
+
+function changeLayout() {
+  curLangIndex = (curLangIndex + 1) % languages.length;
+  saveLanguage();
+  const lang = languages[curLangIndex];
+  const keys = getKeysByLang(lang);
+  const keyboard = document.querySelector('.keyboard');
+  keyboard.innerHTML = '';
+  keyboard.append(...createRows(keys));
+  shift();
+}
+
+let isShiftDown = false;
+let isCtrlDown = false;
 
 const printSpecialKey = (key) => {
   switch (key) {
