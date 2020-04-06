@@ -43,6 +43,18 @@
   line-height: 40px;
 }
 
+.switchLang {
+  width: 696px;
+  margin: 20px auto;
+  font-size: 18px;
+  font-style: italic;
+  color: indigo;
+}
+
+strong {
+  font-weight: bold;
+}
+
 .key:hover,
 .keydown {
   background-color:mediumorchid;

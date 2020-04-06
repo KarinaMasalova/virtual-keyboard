@@ -333,6 +333,11 @@ function createElements() {
   const rows = createRows(allKeys);
   keyboard.append(...rows);
 
+  const howToSwitchLang = document.createElement('div');
+  howToSwitchLang.classList.add(css.switchLang);
+  howToSwitchLang.innerHTML = '<p><strong>Shift + Ctrl</strong> - to switch language (переключить язык)</p>';
+  wrapper.appendChild(howToSwitchLang);
+
   return wrapper;
 }
 
