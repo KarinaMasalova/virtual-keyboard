@@ -13,8 +13,8 @@ const keyboardLayout = {
     digit0: ['0', ')'],
     minus: ['-', '_'],
     equal: ['=', '+'],
-    backspace: ['Backspace'],
-    tab: ['Tab'],
+    backspace: ['Backspace', 'Backspace'],
+    tab: ['Tab', 'Tab'],
     keyQ: ['q', 'Q'],
     keyW: ['w', 'W'],
     keyE: ['e', 'E'],
@@ -28,8 +28,8 @@ const keyboardLayout = {
     bracketLeft: ['[', '{'],
     bracketRight: [']', '}'],
     backslash: ['\\', '|'],
-    delete: ['DEL'],
-    capsLock: ['CapsLock'],
+    delete: ['DEL', 'DEL'],
+    capsLock: ['CapsLock', 'CapsLock'],
     keyA: ['a', 'A'],
     keyS: ['s', 'S'],
     keyD: ['d', 'D'],
@@ -41,8 +41,8 @@ const keyboardLayout = {
     keyL: ['l', 'L'],
     semicolon: [';', ':'],
     quote: ['\'', '"'],
-    enter: ['ENTER'],
-    shiftLeft: ['Shift'],
+    enter: ['ENTER', 'ENTER'],
+    shiftLeft: ['Shift', 'Shift'],
     keyZ: ['z', 'Z'],
     keyX: ['x', 'X'],
     keyC: ['c', 'C'],
@@ -53,16 +53,16 @@ const keyboardLayout = {
     comma: [',', '<'],
     period: ['.', '>'],
     slash: ['/', '?'],
-    arrowUp: ['↑'],
-    shiftRight: ['Shift'],
-    controlLeft: ['Ctrl'],
-    altLeft: ['Alt'],
+    arrowUp: ['↑', '↑'],
+    shiftRight: ['Shift', 'Shift'],
+    controlLeft: ['Ctrl', 'Ctrl'],
+    altLeft: ['Alt', 'Alt'],
     space: [' ', ' '],
-    altRight: ['Alt'],
-    arrowLeft: ['←'],
-    arrowDown: ['↓'],
-    arrowRight: ['→'],
-    controlRight: ['Ctrl'],
+    altRight: ['Alt', 'Alt'],
+    arrowLeft: ['←', '←'],
+    arrowDown: ['↓', '↓'],
+    arrowRight: ['→', '→'],
+    controlRight: ['Ctrl', 'Ctrl'],
   },
   ru: {
     backquote: ['ё', 'Ё'],
@@ -78,8 +78,8 @@ const keyboardLayout = {
     digit0: ['0', ')'],
     dash: ['-', '_'],
     equal: ['=', '+'],
-    backspace: ['Backspace'],
-    tab: ['Tab'],
+    backspace: ['Backspace', 'Backspace'],
+    tab: ['Tab', 'Tab'],
     keyQ: ['й', 'Й'],
     keyW: ['ц', 'Ц'],
     keyE: ['у', 'У'],
@@ -93,8 +93,8 @@ const keyboardLayout = {
     leftBracket: ['х', 'Х'],
     rightBracket: ['ъ', 'Ъ'],
     backslash: ['\\', '/'],
-    del: ['DEL'],
-    capslock: ['CapsLock'],
+    del: ['DEL', 'DEL'],
+    capslock: ['CapsLock', 'CapsLock'],
     keyA: ['ф', 'Ф'],
     keyS: ['ы', 'Ы'],
     keyD: ['в', 'В'],
@@ -106,8 +106,8 @@ const keyboardLayout = {
     keyL: ['д', 'Д'],
     semicolon: ['ж', 'Ж'],
     quote: ['э', 'Э'],
-    enter: ['ENTER'],
-    shiftLeft: ['Shift'],
+    enter: ['ENTER', 'ENTER'],
+    shiftLeft: ['Shift', 'Shift'],
     keyZ: ['я', 'Я'],
     keyX: ['ч', 'Ч'],
     keyC: ['с', 'С'],
@@ -118,16 +118,16 @@ const keyboardLayout = {
     comma: ['б', 'Б'],
     dot: ['ю', 'Ю'],
     slash: ['.', ','],
-    arrowUp: ['↑'],
-    shiftRight: ['Shift'],
-    controlLeft: ['Ctrl'],
-    altLeft: ['Alt'],
+    arrowUp: ['↑', '↑'],
+    shiftRight: ['Shift', 'Shift'],
+    controlLeft: ['Ctrl', 'Ctrl'],
+    altLeft: ['Alt', 'Alt'],
     space: [' ', ' '],
-    altRight: ['Alt'],
-    arrowLeft: ['←'],
-    arrowDown: ['↓'],
-    arrowRight: ['→'],
-    controlRight: ['Ctrl'],
+    altRight: ['Alt', 'Alt'],
+    arrowLeft: ['←', '←'],
+    arrowDown: ['↓', '↓'],
+    arrowRight: ['→', '→'],
+    controlRight: ['Ctrl', 'Ctrl'],
   },
 };
 
@@ -149,6 +149,7 @@ const css = {
   keydown: 'keydown',
   switchLang: 'switchLang',
   text: 'text',
+  hidden: 'hidden',
 };
 
 const textarea = document.createElement('textarea');
@@ -175,15 +176,19 @@ function getKeysByLang() {
   const lang = languages[curLangIndex];
   const langArr = Object.entries(keyboardLayout[lang]);
   const value = langArr.map((arr) => {
-    const [keyID, values] = arr;
-    const [val1, val2] = values;
-    const val = document.createElement('span');
+    const [keyID, values] = arr; /* [backquote, ['`', '~'//]] */
+    const [val1, val2] = values; /* ['`', '~'] */
+    const valVisible = document.createElement('span');
 
-    val.setAttribute('class', 'val');
-    val.textContent = val1;
+    valVisible.setAttribute('class', 'val');
+    valVisible.textContent = val1;
+
+    const valHidden = document.createElement('span');
+    valHidden.textContent = val2;
+    valHidden.setAttribute('class', 'hidden');
 
     const key = createKey();
-    key.append(val);
+    key.append(valVisible, valHidden);
     key.id = keyID;
 
     key.classList.add(css.backspace);
@@ -251,6 +256,18 @@ function changeLayout() {
 let isShiftDown = false;
 let isCtrlDown = false;
 
+const shift = () => {
+  const visible = document.querySelectorAll('.val');
+  const hidden = document.querySelectorAll('.hidden');
+  visible.forEach((v) => {
+    v.classList.add('hidden');
+  });
+  hidden.forEach((h) => {
+    h.classList.remove('hidden');
+    h.classList.add('val');
+  });
+};
+
 const printSpecialKey = (key) => {
   switch (key) {
     case 'Tab':
@@ -261,7 +278,6 @@ const printSpecialKey = (key) => {
       break;
     case 'Alt':
     case 'Ctrl':
-    case 'Shift':
     case 'DEL':
     case '↑':
     case '↓':
@@ -293,6 +309,11 @@ function handleKeydown(event) {
 
   printSpecialKey(keyElem.textContent);
 
+  if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+    isShiftDown = true;
+    shift();
+  }
+
   if (event.shiftKey === true) isShiftDown = true;
   else isShiftDown = false;
 
@@ -309,6 +330,11 @@ function handleKeyup(event) {
   const keyID = `#${event.code[0].toLowerCase()}${event.code.substring(1)}`;
   const keyElem = document.querySelector(keyID);
   keyElem.classList.remove(css.keydown);
+  if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+    isShiftDown = false;
+    shift();
+  }
+
   return true;
 }
 
