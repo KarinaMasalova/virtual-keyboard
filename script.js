@@ -147,6 +147,8 @@ const css = {
   alt: 'alt',
   space: 'space',
   keydown: 'keydown',
+  switchLang: 'switchLang',
+  text: 'text',
 };
 
 const textarea = document.createElement('textarea');
@@ -160,14 +162,13 @@ function createKey() {
 const languages = ['en', 'ru'];
 let curLangIndex = 0;
 
-
-function saveLanguage() {
-  window.localStorage.setItem('language', curLangIndex);
-}
-
 function getLanguage() {
   const langIndex = window.localStorage.getItem('language');
   return (langIndex || 0);
+}
+
+function saveLanguage() {
+  window.localStorage.setItem('language', curLangIndex);
 }
 
 function getKeysByLang() {
@@ -249,7 +250,6 @@ function changeLayout() {
 
 let isShiftDown = false;
 let isCtrlDown = false;
-// let isCapsDown = false;
 
 const printSpecialKey = (key) => {
   switch (key) {
@@ -261,7 +261,22 @@ const printSpecialKey = (key) => {
       break;
     case 'Alt':
     case 'Ctrl':
+    case 'Shift':
+    case 'DEL':
+    case '↑':
+    case '↓':
       textarea.value += '';
+      break;
+    case 'Backspace':
+      textarea.value = textarea.value.slice(0, -1);
+      break;
+    case '←':
+      textarea.selectionStart -= 1;
+      textarea.selectionEnd = textarea.selectionStart;
+      break;
+    case '→':
+      textarea.selectionStart += 1;
+      textarea.selectionEnd = textarea.selectionStart;
       break;
     default:
       textarea.value += key;
