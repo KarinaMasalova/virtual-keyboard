@@ -314,9 +314,6 @@ function handleKeydown(event) {
 
   const span = keyElem.querySelector('.val').textContent;
 
-  console.log(keyElem);
-  console.log(span);
-
   printSpecialKey(keyID, span);
 
   if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
