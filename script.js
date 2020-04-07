@@ -364,9 +364,9 @@ function createElements() {
   keyboard.classList.add(css.keyboard);
   wrapper.append(textarea, keyboard);
 
-  const allKeys = getKeysByLang();
   curLangIndex = getLanguage();
   saveLanguage();
+  const allKeys = getKeysByLang();
 
   const rows = createRows(allKeys);
   keyboard.append(...rows);
