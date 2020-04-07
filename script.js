@@ -378,7 +378,8 @@ function createElements() {
 
 function mouseDownHandler(elem) {
   elem.classList.add(css.keydown);
-  printSpecialKey(elem.textContent);
+  const span = elem.querySelector('.val').textContent;
+  printSpecialKey(elem.firstElementChild.textContent, span);
 }
 
 function mouseUpHandler(elem) {
