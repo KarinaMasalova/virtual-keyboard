@@ -242,6 +242,8 @@ function createRows(allKeys) {
   return [row1, row2, row3, row4, row5];
 }
 
+// let isCapsDown = false;
+
 const shift = () => {
   const visible = document.querySelectorAll('.val');
   const hidden = document.querySelectorAll('.hidden');
@@ -312,9 +314,6 @@ function handleKeydown(event) {
   keyElem.classList.add(css.keydown);
 
   const span = keyElem.querySelector('.val').textContent;
-
-  console.log(keyElem);
-  console.log(span);
 
   printSpecialKey(keyID, span);
 
