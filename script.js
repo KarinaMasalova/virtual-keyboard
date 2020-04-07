@@ -93,7 +93,7 @@ const keyboardLayout = {
     leftBracket: ['х', 'Х'],
     rightBracket: ['ъ', 'Ъ'],
     backslash: ['\\', '/'],
-    delete: ['DEL', 'DEL'],
+    del: ['DEL', 'DEL'],
     capslock: ['CapsLock', 'CapsLock'],
     keyA: ['ф', 'Ф'],
     keyS: ['ы', 'Ы'],
@@ -242,8 +242,6 @@ function createRows(allKeys) {
   return [row1, row2, row3, row4, row5];
 }
 
-// let isCapsDown = false;
-
 const shift = () => {
   const visible = document.querySelectorAll('.val');
   const hidden = document.querySelectorAll('.hidden');
@@ -288,6 +286,7 @@ const printSpecialKey = (key, span) => {
     case 'arrowDown':
     case 'shiftRight':
     case 'shiftLeft':
+    case 'capsLock':
       break;
     case 'backspace':
       textarea.value = textarea.value.slice(0, -1);
@@ -315,6 +314,9 @@ function handleKeydown(event) {
 
   const span = keyElem.querySelector('.val').textContent;
 
+  console.log(keyElem);
+  console.log(span);
+
   printSpecialKey(keyID, span);
 
   if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
@@ -324,8 +326,6 @@ function handleKeydown(event) {
 
   if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
     isCtrlDown = true;
-  } else {
-    isCtrlDown = false;
   }
 
   if (isShiftDown && isCtrlDown) changeLayout();
@@ -344,8 +344,6 @@ function handleKeyup(event) {
   }
 
   if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
-    isCtrlDown = true;
-  } else {
     isCtrlDown = false;
   }
 
@@ -375,7 +373,7 @@ function createElements() {
 
   const howToSwitchLang = document.createElement('div');
   howToSwitchLang.classList.add(css.switchLang);
-  howToSwitchLang.innerHTML = '<p><strong>Shift + Ctrl</strong> - to switch language (переключить язык)</p>';
+  howToSwitchLang.innerHTML = '<p><strong>Shift + Ctrl</strong> - to switch language (переключить язык). OS - Windows</p>';
   wrapper.appendChild(howToSwitchLang);
 
   return wrapper;
@@ -383,7 +381,7 @@ function createElements() {
 
 function mouseDownHandler(elem) {
   elem.classList.add(css.keydown);
-  printSpecialKey(elem.firstElementChild.textContent);
+  printSpecialKey(elem.textContent);
 }
 
 function mouseUpHandler(elem) {
