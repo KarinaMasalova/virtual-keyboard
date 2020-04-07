@@ -93,7 +93,7 @@ const keyboardLayout = {
     leftBracket: ['х', 'Х'],
     rightBracket: ['ъ', 'Ъ'],
     backslash: ['\\', '/'],
-    del: ['DEL', 'DEL'],
+    delete: ['DEL', 'DEL'],
     capslock: ['CapsLock', 'CapsLock'],
     keyA: ['ф', 'Ф'],
     keyS: ['ы', 'Ы'],
@@ -149,7 +149,6 @@ const css = {
   keydown: 'keydown',
   switchLang: 'switchLang',
   text: 'text',
-  hidden: 'hidden',
 };
 
 const textarea = document.createElement('textarea');
@@ -248,6 +247,7 @@ const shift = () => {
   const hidden = document.querySelectorAll('.hidden');
   visible.forEach((v) => {
     v.classList.add('hidden');
+    v.classList.remove('val');
   });
   hidden.forEach((h) => {
     h.classList.remove('hidden');
@@ -269,57 +269,65 @@ function changeLayout() {
 let isShiftDown = false;
 let isCtrlDown = false;
 
-const printSpecialKey = (key) => {
+const printSpecialKey = (key, span) => {
   switch (key) {
-    case 'Tab':
+    case 'tab':
       textarea.value += '  ';
       break;
-    case 'ENTER':
+    case 'enter':
       textarea.value += '\n';
       break;
-    case 'Alt':
-    case 'Ctrl':
-    case 'DEL':
-    case '↑':
-    case '↓':
-      textarea.value += '';
+    case 'altLeft':
+    case 'altRight':
+    case 'controlLeft':
+    case 'controlRight':
+    case 'delete':
+    case 'arrowUp':
+    case 'arrowDown':
+    case 'shiftRight':
+    case 'shiftLeft':
       break;
-    case 'Backspace':
+    case 'backspace':
       textarea.value = textarea.value.slice(0, -1);
       break;
-    case '←':
+    case 'arrowLeft':
       textarea.selectionStart -= 1;
       textarea.selectionEnd = textarea.selectionStart;
       break;
-    case '→':
+    case 'arrowRight':
       textarea.selectionStart += 1;
       textarea.selectionEnd = textarea.selectionStart;
       break;
     default:
-      textarea.value += key;
+      textarea.value += span;
       break;
   }
-  textarea.innerHTML += key;
 };
 
 function handleKeydown(event) {
   event.preventDefault();
-  const keyID = `#${event.code[0].toLowerCase()}${event.code.substring(1)}`; /* make 1st letter in event.code capitalized */
-  const keyElem = document.querySelector(keyID);
+  const keyID = `${event.code[0].toLowerCase()}${event.code.substring(1)}`; /* make 1st letter in event.code capitalized */
+  const keyIdSelector = `#${keyID}`;
+  const keyElem = document.querySelector(keyIdSelector);
   keyElem.classList.add(css.keydown);
 
-  printSpecialKey(keyElem.textContent);
+  const span = keyElem.querySelector('.val').textContent;
+
+  console.log(keyElem);
+  console.log(span);
+
+  printSpecialKey(keyID, span);
 
   if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
     isShiftDown = true;
     shift();
   }
 
-  if (event.shiftKey === true) isShiftDown = true;
-  else isShiftDown = false;
-
-  if (event.ctrlKey === true) isCtrlDown = true;
-  else isCtrlDown = false;
+  if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
+    isCtrlDown = true;
+  } else {
+    isCtrlDown = false;
+  }
 
   if (isShiftDown && isCtrlDown) changeLayout();
 
@@ -334,6 +342,12 @@ function handleKeyup(event) {
   if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
     isShiftDown = false;
     shift();
+  }
+
+  if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
+    isCtrlDown = true;
+  } else {
+    isCtrlDown = false;
   }
 
   return true;
@@ -370,7 +384,7 @@ function createElements() {
 
 function mouseDownHandler(elem) {
   elem.classList.add(css.keydown);
-  printSpecialKey(elem.textContent);
+  printSpecialKey(elem.firstElementChild.textContent);
 }
 
 function mouseUpHandler(elem) {
